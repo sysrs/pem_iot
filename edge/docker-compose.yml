@@ -1,1 +1,38 @@
 
+services:
+  mytbedge:
+    restart: always
+    image: "thingsboard/tb-edge:4.0.1EDGE"
+    ports:
+      - "8080:8080"
+      - "1883:1883"
+      - "5683-5688:5683-5688/udp"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/tb-edge
+      CLOUD_ROUTING_KEY: 90000000-f000-0400-5000-300000000000 # CHANGE THIS
+      CLOUD_ROUTING_SECRET: 01000000000000000000 # CHANGE THIS
+      CLOUD_RPC_HOST: yourhostname.com # CHANGE THIS
+      CLOUD_RPC_PORT: 7071
+      CLOUD_RPC_SSL_ENABLED: false
+    volumes:
+      - tb-edge-data:/data
+      - tb-edge-logs:/var/log/tb-edge
+    
+  postgres:
+    restart: always
+    image: "postgres:16"
+    ports:
+      - "5432"
+    environment:
+      POSTGRES_DB: tb-edge
+      POSTGRES_PASSWORD: password # CHANGE THIS
+    volumes:
+      - tb-edge-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  tb-edge-data:
+    name: tb-edge-data
+  tb-edge-logs:
+    name: tb-edge-logs
+  tb-edge-postgres-data:
+    name: tb-edge-postgres-data
