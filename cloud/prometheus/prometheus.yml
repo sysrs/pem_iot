@@ -1,0 +1,26 @@
+global:
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  evaluation_interval: 15s
+storage:
+  tsdb:
+    out_of_order_time_window: 2d # IMPORTANT for getting data when edge has been offline. 
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: []
+    scheme: http
+    timeout: 10s
+scrape_configs:
+- job_name: prometheus
+  honor_timestamps: true
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - localhost:9090
+- job_name: 'pi_edge_metrics' # This job will receive metrics via remote write, not scrape
+    # No targets needed here for remote write. Targets are defined implicitly by the incoming data.
+    # We will use relabeling if needed to differentiate multiple PIs, but for now, this is enough.
