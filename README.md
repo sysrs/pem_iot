@@ -1,9 +1,12 @@
-![Edge Cloud FuelCell Architecture-Design 0 3 drawio (14)](https://github.com/user-attachments/assets/fcb42c3c-ebc6-4221-be09-c7b772281afe)# pem_iot
+
+# pem_iot
 Remote Monitoring &amp; Control of a Remote PEM Hydrogen Electrolyser System
 (This used to be called iot-setup, so look out for any remnants of that name and correct if necessary. Also, this is a work in progress that needs some tidying)
 
 
 This guide outlines the setup for your IoT project, encompassing a Raspberry Pi 5 edge device, an Azure-hosted Ubuntu server, Docker for containerization, ThingsBoard for IoT data management, Prometheus and Grafana for monitoring, and a reverse SSH tunnel for edge administration.
+
+![Edge Cloud FuelCell Architecture-Design 0 3 drawio (14)](https://github.com/user-attachments/assets/fcb42c3c-ebc6-4221-be09-c7b772281afe)
 
 
 # Server
