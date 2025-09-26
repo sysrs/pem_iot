@@ -413,6 +413,47 @@ sudo usermod -a -G dialout $USER # Or replace $USER with 'pi' if appropriate
 vim ~/power_supply_controller/test_psu.py
 ```
 
+**Once all testing is done, then use the code from this repo, and use the below to set it up as a service so that it starts when the Pi boots up....
+```bash
+sudo vim /etc/systemd/system/ka3005p_controller.service
+```
+```Ini, TOML
+[Unit]
+Description=KA3005P Power Supply Controller Script
+After=network.target
+
+[Service]
+# IMPORTANT: Replace 'your_username' with your actual username (e.g., 'pi')
+User=your_username
+WorkingDirectory=/home/your_username/iot-setup/edge/scripts
+# Replace 'your_username' below to point to your virtual environment's python executable
+ExecStart=/home/your_username/iot-setup/edge/scripts/psu_env/bin/python -u KA3005P_controller.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ka3005p_controller
+
+[Install]
+WantedBy=multi-user.target
+```
+```bash
+sudo systemctl daemon-reload
+```
+```bash
+sudo systemctl enable ka3005p_controller.service
+```
+```bash
+sudo systemctl start ka3005p_controller.service
+```
+Check the status:
+```bash
+sudo systemctl status ka3005p_controller.service
+```
+View real-time logs (unbuffered output):
+```bash
+sudo journalctl -u ka3005p_controller.service -f
+```
 
 
 
